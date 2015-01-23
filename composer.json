@@ -1,0 +1,19 @@
+{
+    "name": "jhome/permissions-bundle",
+    "description": "Define permissions with the symfony expression language",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérôme Vasseur",
+            "email": "jerome.vasseur@jhome.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jhome\\PermissionsBundle\\": ""
+        }
+    }
+}
