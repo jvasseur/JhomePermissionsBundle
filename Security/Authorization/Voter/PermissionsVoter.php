@@ -2,27 +2,27 @@
 
 namespace Jhome\PermissionsBundle\Security\Authorization\Voter;
 
-use Jhome\PermissionsBundle\PermissionsLoader;
+use Jhome\PermissionsBundle\Loader\PermissionsLoaderInterface;
 
 use Symfony\Component\Security\Core\Authorization\VoterInterface;
 
 class PermissionsVoter implements VoterInterface
 {
     /**
-     * @var PermissionsLoader
+     * @var PermissionsLoaderInterface
      */
     private $loader;
 
-    private $permissions;
+    private $permissions = [];
 
-    public function __construct(PermissionsLoader $loader)
+    public function __construct(PermissionsLoaderInterface $loader)
     {
         $this->loader = $loader;
     }
 
     public function supportClass($class)
     {
-        return isset($this->permissions[$class]);
+        return $this->getPermissions($class) !== null;
     }
 
     public function supportAttribute($attribute)
@@ -41,7 +41,7 @@ class PermissionsVoter implements VoterInterface
 
         foreach ($attributes as $attribute) {
             if (isset($this->permissions[$class][$attribute])) {
-                if ($this->evaluate($this->permissions[$class][$attribute], $token) {
+                if ($this->evaluate($this->getPermissions($class)[$attribute], $token) {
                     return VoterInterface::ACCESS_GRANTED;
                 } else {
                     return VoterInterface::ACCESS_DENIED;
@@ -52,12 +52,12 @@ class PermissionsVoter implements VoterInterface
         return VoterInterface::ACCESS_ABSTAIN;
     }
 
-    private function getPermissions()
+    private function getPermissions($class)
     {
-        if ($this->permissions === null) {
-            $this->permissions = $this->loader->loadPermissions();
+        if (!array_key_exists($class, $this->permissions) {
+            $this->permissions[$class] = $this->loader->loadPermissions($class);
         }
 
-        return $this->permissions;
+        return $this->permissions[$class];
     }
 }
