@@ -1,6 +1,6 @@
 <?php
 
-namespace Jhome\PermissionsBundle\Yaml;
+namespace Jhome\PermissionsBundle\Loader;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -31,7 +31,7 @@ class YamlPermissionsLoader implements PermissionsLoaderInterface
             $this->load();
         }
 
-        return isset($this->permissions[$class]) : $this->permissions[$class] : null;
+        return isset($this->permissions[$class]) ? $this->permissions[$class] : null;
     }
 
     private function load()

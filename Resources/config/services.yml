@@ -3,7 +3,7 @@ services:
         class: Jhome\PermissionsBunble\Loader\YamlPermissionsLoader
         public: false
     jhome.permissions.voter:
-        class: Jhome\PermissionsBundle\Security\Authorisation\Voter\PermissionsVoter
+        class: Jhome\PermissionsBundle\Voter\PermissionsVoter
         arguments: [@jhome.permissions.loader, @security.access.expression_voter]
         public: false
         tags:
