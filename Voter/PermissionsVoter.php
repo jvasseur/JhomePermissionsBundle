@@ -27,7 +27,7 @@ class PermissionsVoter implements VoterInterface
 
     public function supportsAttribute($attribute)
     {
-        true;
+        return true;
     }
 
     public function supportsClass($class)
@@ -53,54 +53,49 @@ class PermissionsVoter implements VoterInterface
 
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-        return $this->doVote(get_class($object), $token, $object, $attributes);
+        $vote = self::ACCESS_ABSTAIN;
+
+        foreach ($attributes as $attribute) {
+            $voted = $this->voteAttribute($token, $object, $attribute);
+
+            if ($voted === self::ACCESS_GRANTED) {
+                return self::ACCESS_GRANTED;
+            } elseif ($voted === self::ACCESS_DENIED) {
+                $vote = self::ACCESS_DENIED;
+            }
+        }
+
+        return $vote;
     }
 
-    private function doVote($class, TokenInterface $token, $object, array $attributes)
+    private function voteAttribute(TokenInterface $token, $object, $attribute)
     {
-        $denied = false;
+        if ($permissions = $this->getPermissions(get_class($object))) {
+            if (isset($permissions[$attribute])) {
+                return $this->expressionVoter->vote($token, $object, [new Expression($permissions[$attribute])]);
+            }
+        }
 
-        if ($permissions = $this->getPermissions($class)) {
-            foreach ($attributes as $attribute) {
+        $reflection = new \ReflectionClass(get_class($object));
+
+        $parent = $reflection;
+        while ($parent = $parent->getParentClass()) {
+            if ($permissions = $this->getPermissions($parent->getName())) {
                 if (isset($permissions[$attribute])) {
-                    $vote = $this->expressionVoter->vote($token, $object, [new Expression($permissions[$attribute])]);
-
-                    if ($vote === VoterInterface::ACCESS_GRANTED) {
-                        return VoterInterface::ACCESS_GRANTED;
-                    } else {
-                        return VoterInterface::ACCESS_DENIED;
-                    }
+                    return $this->expressionVoter->vote($token, $object, [new Expression($permissions[$attribute])]);
                 }
             }
         }
 
-        $reflection = new \ReflectionClass($class);
-
-        if ($reflection->getParentClass()) {
-            $vote = $this->doVote($reflection->getParentClass()->getName(), $token, $object, $attributes);
-
-            if ($vote === VoterInterface::ACCESS_GRANTED) {
-                return VoterInterface::ACCESS_GRANTED;
-            } elseif ($vote === VoterInterface::ACCESS_DENIED) {
-                $denied = true;
-            }
-        }
-
         foreach ($reflection->getInterfaceNames() as $interface) {
-            $vote = $this->doVote($interface, $token, $object, $attributes);
-
-            if ($vote === VoterInterface::ACCESS_GRANTED) {
-                return VoterInterface::ACCESS_GRANTED;
-            } elseif ($vote === VoterInterface::ACCESS_DENIED) {
-                $denied = true;
+            if ($permissions = $this->getPermissions($interface)) {
+                if (isset($permissions[$attribute])) {
+                    return $this->expressionVoter->vote($token, $object, [new Expression($permissions[$attribute])]);
+                }
             }
         }
 
-        if ($denied) {
-            return VoterInterface::ACESS_DENIED;
-        } else {
-            return VoterInterface::ACCESS_ABSTAIN;
-        }
+        return self::ACCESS_ABSTAIN;
     }
 
     private function getPermissions($class)
