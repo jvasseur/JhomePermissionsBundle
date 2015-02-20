@@ -66,7 +66,9 @@ class YamlPermissionsLoader implements PermissionsLoaderInterface
                     throw new \LogicException("Class name must be absolute if defined outside a bundle");
                 }
 
-                $class = $baseNamespace . $class;
+                $class = $namespace . $class;
+            } else {
+                $class = substr($class, 1);
             }
 
             $this->permissions[$class] = $permissions;
