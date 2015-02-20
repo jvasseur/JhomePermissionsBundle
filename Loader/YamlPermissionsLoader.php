@@ -39,7 +39,7 @@ class YamlPermissionsLoader implements PermissionsLoaderInterface
         $this->permissions = [];
 
         foreach ($this->bundles as $bundle => $class) {
-            $namespace = substr($class, 0, strrpos($class, '\\'));
+            $namespace = substr($class, 0, strrpos($class, '\\') + 1);
 
             $reflection = new \ReflectionClass($class);
             if (is_file($file = dirname($reflection->getFilename()) . '/Resources/config/permissions.yml')) {

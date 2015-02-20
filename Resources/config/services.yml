@@ -8,4 +8,4 @@ services:
         arguments: [@jhome.permissions.loader, @security.access.expression_voter]
         public: false
         tags:
-           - { name: security.voter }
+            - { name: security.voter }
