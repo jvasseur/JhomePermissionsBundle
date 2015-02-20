@@ -1,6 +1,6 @@
 services:
     jhome.permissions.loader:
-        class: Jhome\PermissionsBunble\Loader\YamlPermissionsLoader
+        class: Jhome\PermissionsBundle\Loader\YamlPermissionsLoader
         public: false
     jhome.permissions.voter:
         class: Jhome\PermissionsBundle\Voter\PermissionsVoter
