@@ -51,7 +51,7 @@ class YamlPermissionsLoader implements PermissionsLoaderInterface
             }
         }
 
-        if (is_file($dir = $this->rootDir . '/Resources/config/permissions.yml')) {
+        if (is_file($file = $this->rootDir . '/Resources/config/permissions.yml')) {
             $this->loadFile($file);
         }
     }
