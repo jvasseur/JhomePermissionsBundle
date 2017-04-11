@@ -1,11 +1,11 @@
 {
-    "name": "jhome/permissions-bundle",
+    "name": "thetribe/permissions-bundle",
     "description": "Define permissions with the symfony expression language",
     "license": "MIT",
     "authors": [
         {
             "name": "Jérôme Vasseur",
-            "email": "jerome.vasseur@jhome.fr"
+            "email": "jerome.vasseur@thetribe.io"
         }
     ],
     "require": {
@@ -18,7 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Jhome\\PermissionsBundle\\": ""
+            "TheTribe\\PermissionsBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TheTribe\\PermissionsBundle\\Tests": "tests/"
         }
     }
 }

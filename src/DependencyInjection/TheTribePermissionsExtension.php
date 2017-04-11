@@ -1,13 +1,13 @@
 <?php
 
-namespace Jhome\PermissionsBundle\DependencyInjection;
+namespace TheTribe\PermissionsBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class JhomePermissionsExtension extends Extension
+class TheTribePermissionsExtension extends Extension
 {
     /**
      * {@inheritdoc}

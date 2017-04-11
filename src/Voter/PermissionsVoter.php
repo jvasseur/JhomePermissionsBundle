@@ -1,12 +1,11 @@
 <?php
 
-namespace Jhome\PermissionsBundle\Voter;
-
-use Jhome\PermissionsBundle\Loader\PermissionsLoaderInterface;
+namespace TheTribe\PermissionsBundle\Voter;
 
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use TheTribe\PermissionsBundle\Loader\PermissionsLoaderInterface;
 
 class PermissionsVoter implements VoterInterface
 {

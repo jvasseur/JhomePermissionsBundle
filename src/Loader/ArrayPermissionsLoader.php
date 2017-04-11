@@ -1,6 +1,6 @@
 <?php
 
-namespace Jhome\PermissionsBundle\Loader;
+namespace TheTribe\PermissionsBundle\Loader;
 
 class ArrayPermissionsLoader implements PermissionsLoaderInterface
 {

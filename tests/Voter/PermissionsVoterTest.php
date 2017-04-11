@@ -1,12 +1,11 @@
 <?php
 
-namespace Jhome\PermissionsBundle\Tests\Voter;
+namespace TheTribe\PermissionsBundle\Tests\Voter;
 
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-
-use Jhome\PermissionsBundle\Loader\ArrayPermissionsLoader;
-use Jhome\PermissionsBundle\Voter\PermissionsVoter;
+use TheTribe\PermissionsBundle\Loader\ArrayPermissionsLoader;
+use TheTribe\PermissionsBundle\Voter\PermissionsVoter;
 
 class PermissionsVoterTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,14 +56,14 @@ class PermissionsVoterTest extends \PHPUnit_Framework_TestCase
         ;
 
         $voter = new PermissionsVoter($loader, $expressionVoter);
-	$this->assertSame(VoterInterface::ACCESS_GRANTED, $voter->vote($token, $object, $attributes));
+        $this->assertSame(VoterInterface::ACCESS_GRANTED, $voter->vote($token, $object, $attributes));
     }
 
     public function getVoteDecideTests()
     {
         return [
-            [['Jhome\PermissionsBundle\Tests\Voter\FixtureObject' => ['view' => 'true']], new FixtureObject(), ['view'], 'true'],
-            [['Jhome\PermissionsBundle\Tests\Voter\FixtureObject' => ['view' => 'true']], new FixtureObjectChild(), ['view'], 'true'],
+            [['TheTribe\PermissionsBundle\Tests\Voter\FixtureObject' => ['view' => 'true']], new FixtureObject(), ['view'], 'true'],
+            [['TheTribe\PermissionsBundle\Tests\Voter\FixtureObject' => ['view' => 'true']], new FixtureObjectChild(), ['view'], 'true'],
         ];
     }
 }

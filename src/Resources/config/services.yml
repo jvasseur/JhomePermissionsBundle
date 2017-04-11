@@ -1,0 +1,11 @@
+services:
+    the_tribe_permissions.loader:
+        class: TheTribe\PermissionsBundle\Loader\YamlPermissionsLoader
+        arguments: ['%kernel.bundles%', '%kernel.root_dir%']
+        public: false
+    the_tribe_permissions.voter:
+        class: TheTribe\PermissionsBundle\Voter\PermissionsVoter
+        arguments: ['@the_tribe_permissions.loader', '@security.access.expression_voter']
+        public: false
+        tags:
+            - { name: security.voter }
